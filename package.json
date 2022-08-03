@@ -1,0 +1,14 @@
+{
+  "name": "streaming-analytics",
+  "version": "1.0.0",
+  "description": "Application will provide statistics on Netflix viewing habits",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andre Dean",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
