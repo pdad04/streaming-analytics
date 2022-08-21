@@ -1,2 +1,24 @@
 node_modules
 tmp/uploads/
+
+# dependencies
+/client/streaming-analytics/node_modules
+/client/streaming-analytics/.pnp
+/client/streaming-analytics/.pnp.js
+
+# testing
+/coverage
+
+# production
+/client/streaming-analytics/build
+
+# misc
+/client/streaming-analytics/.DS_Store
+/client/streaming-analytics/.env.local
+/client/streaming-analytics/.env.development.local
+/client/streaming-analytics/.env.test.local
+/client/streaming-analytics/.env.production.local
+
+/client/streaming-analytics/npm-debug.log*
+/client/streaming-analytics/yarn-debug.log*
+/client/streaming-analytics/yarn-error.log*
