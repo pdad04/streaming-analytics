@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "app": "concurrently \"npm run dev\"  \"npm run start --prefix client/streaming-statistics\""
   },
   "author": "Andre Dean",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.27.2",
+    "concurrently": "^7.3.0",
     "data-forge": "^1.9.6",
     "data-forge-fs": "^0.0.9",
     "express": "^4.18.1",
