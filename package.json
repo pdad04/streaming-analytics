@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js",
-    "app": "concurrently \"npm run dev\"  \"npm run start --prefix client/streaming-statistics\""
+    "start": "concurrently \"npm run dev\"  \"npm run start --prefix client/streaming-statistics\""
   },
   "author": "Andre Dean",
   "license": "ISC",

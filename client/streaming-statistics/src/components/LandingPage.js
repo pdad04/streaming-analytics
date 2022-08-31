@@ -6,6 +6,7 @@ import { Accordion, Panel } from "baseui/accordion";
 import { DisplayLarge, ParagraphLarge, HeadingXXLarge} from "baseui/typography";
 import { StyledLink } from "baseui/link";
 import ChevronDown  from "baseui/icon/chevron-down";
+import UploadModal from "./UploadModal";
 
 
 const heroProps = {
@@ -26,7 +27,7 @@ const chevronProps = {
   position: "absolute",
   bottom: "0",
   display: "flex",
-  justifyContent:"center",
+  justifyContent: "center",
   color: "white"
 
 }
@@ -35,11 +36,12 @@ const landingContentProps = {
   padding: "15rem 2rem 5rem",
   display: "flex",
   width: "100%",
-  justifyContent: "center",
+  maxWidth: "1500px",
+  margin: "0 auto"
 }
 
 
-const LandingPage = () => {
+const LandingPage = ({ getResponse }) => {
   const [css] = useStyletron();
 
   return (
@@ -73,7 +75,7 @@ const LandingPage = () => {
           <ChevronDown size={100} />
         </FlexGridItem>
       </FlexGrid>
-      <FlexGrid flexGridColumnCount={1} {...landingContentProps}>
+      <FlexGrid flexGridColumnCount={1} flexGridRowGap={"2rem"} {...landingContentProps}>
         <FlexGridItem>
               <HeadingXXLarge marginBottom={"2rem"}>Statistics for your streaming</HeadingXXLarge>
               <ParagraphLarge>
@@ -81,6 +83,13 @@ const LandingPage = () => {
               </ParagraphLarge>
           </FlexGridItem>
         <FlexGridItem>
+          <UploadModal
+            getResponse={getResponse} 
+            // fileUpload={fileUpload}
+            // chooseTimezone={chooseTimezone}
+            // timezone={timezone}
+            // data={data}
+          />
           <HeadingXXLarge margin={"2rem 0"}>FAQ</HeadingXXLarge>
               <Accordion accordion>
                 <Panel title="Do you store any of my data?">Only briefly, just as long as it takes to calcualate your statistics! When you upload your file it gets saved so we can read the contents and do the calculations. Once you see the output in your browser window, your file has already been deleted!</Panel>
