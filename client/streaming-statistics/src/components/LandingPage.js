@@ -84,17 +84,14 @@ const LandingPage = ({ getResponse }) => {
           </FlexGridItem>
         <FlexGridItem>
           <UploadModal
-            getResponse={getResponse} 
-            // fileUpload={fileUpload}
-            // chooseTimezone={chooseTimezone}
-            // timezone={timezone}
-            // data={data}
+            getResponse={getResponse}
           />
           <HeadingXXLarge margin={"2rem 0"}>FAQ</HeadingXXLarge>
               <Accordion accordion>
                 <Panel title="Do you store any of my data?">Only briefly, just as long as it takes to calcualate your statistics! When you upload your file it gets saved so we can read the contents and do the calculations. Once you see the output in your browser window, your file has already been deleted!</Panel>
                 <Panel title="Where can I get my data to upload?">You can download it at <StyledLink href=" https://www.netflix.com/account/getmyinfo">Netflix</StyledLink>. Netflix says it can take up to 30 days for them to provide the file, but in most cases it's much, much faster than that!</Panel>
                 <Panel title="How do I know which file to upload to your site?">The file you need to upload is called "ViewingActivity.csv" (as of August 2022) which is found in the 'Content Interaction' folder in the data Netflix's provides.</Panel>
+                <Panel title="Why am I getting an error about missing columns when I try to upload a file?">The file you get from Netflix has multiple columns, to calculate your stats we utilize the following columns: 'Profile Name', 'Start Time, 'Duration', and 'Title'. Ensure your file has columns with those headings.</Panel>
                 <Panel title="Why do you just do Netflix?">I had to start somewhere :). I'll look to add the ability to provide stats from other streaming providers, but this will largly be dependent on what data those providers make available for account holders to download.</Panel>
               </Accordion>
         </FlexGridItem>

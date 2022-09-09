@@ -3,32 +3,23 @@ import LandingPage from "./components/LandingPage";
 import "./App.css";
 
 function App() {
-  const [responseData, setResponseData] = useState();
+  const [responseData, setResponseData] = useState(null);
   const [data, setData] = useState(null);
-  const [timezone, setTimezone] = useState(null);
+  const [error, setError] = useState(null);
 
   const getResponse = (res) => {
-    console.log(res);
-    setResponseData(res)
-  }
-
-  const fileUpload = (file) => {
-    setData(file);
-  }
-
-  const chooseTimezone = (tZone) => {
-    setTimezone(tZone);
+    setResponseData(res.data)
   }
 
   return (
     <div className="App">
-     <LandingPage
-        getResponse={getResponse}
-        // fileUpload={fileUpload}
-        // chooseTimezone={chooseTimezone}
-        // data={data}
-        // timezone={timezone}
-     />
+      {responseData ? 
+        responseData.map((el, idx) => <div key={idx}>{el.profileName}</div>)
+      :
+        <LandingPage
+            getResponse={getResponse}
+        />
+      }
     </div>
   );
 }

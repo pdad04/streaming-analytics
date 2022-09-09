@@ -26,7 +26,7 @@ const netflixUpload = async (file, timeZone) => {
     return calculateStats(filteredDF, profiles, timeZone);
   }else{
     fs.unlinkSync(filePath);
-    throw new Error(`The file is missing at least one of the required columns ${requiredColumns.join(", ")}.`);
+    throw new Error(`File is missing at least one of the required columns: ${requiredColumns.join(", ")}.`);
   }
 }
 
