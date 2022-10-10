@@ -4,8 +4,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {Client as Styletron } from "styletron-engine-atomic";
 import { Provider as StyletronProvider } from "styletron-react";
-import { LightTheme, BaseProvider, styled, DarkTheme } from "baseui";
-import { StatefulInput } from "baseui/input";
+import { LightTheme, BaseProvider, styled } from "baseui";
 
 const engine = new Styletron();
 const Centered = styled("div", {

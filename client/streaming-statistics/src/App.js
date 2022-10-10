@@ -1,5 +1,6 @@
 import { useState } from "react";
 import LandingPage from "./components/LandingPage";
+import GraphsPage from "./components/GraphsPage";
 import "./App.css";
 
 function App() {
@@ -14,7 +15,9 @@ function App() {
   return (
     <div className="App">
       {responseData ? 
-        responseData.map((el, idx) => <div key={idx}>{el.profileName}</div>)
+        <GraphsPage
+          data={responseData}
+        />
       :
         <LandingPage
             getResponse={getResponse}
