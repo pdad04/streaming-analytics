@@ -1,19 +1,18 @@
 const dataForge = require("data-forge");
 require("data-forge-fs");
-const {DateTime} = require("luxon");
+const { DateTime } = require("luxon");
 const fs = require("fs");
 const path = require("path");
 const convertTimeString = require("../utils/convertToSeconds");
 
-
 const netflixUpload = async (file, timeZone) => {
-  const filePath = path.resolve("tmp/uploads",file); 
+  const filePath = path.resolve("tmp/uploads", file);
   const dataFrame = await dataForge.readFile(filePath).parseCSV();
   const requiredColumns = ["Profile Name", "Start Time", "Duration", "Title"];
 
-  if(requiredColumns.every(el => dataFrame.getColumnNames().includes(el))){
+  if (requiredColumns.every(el => dataFrame.getColumnNames().includes(el))) {
     // Filter the data frame to exclude rows with a duration < 1 minute
-    // Also only include rows that have no supplemental video type. 
+    // Also only include rows that have no supplemental video type.
     const filteredDF = dataFrame.where(row => {
       const seconds = convertTimeString(row["Duration"]);
       return row["Supplemental Video Type"] === "" && seconds > 60;
@@ -24,51 +23,70 @@ const netflixUpload = async (file, timeZone) => {
 
     fs.unlinkSync(filePath);
     return calculateStats(filteredDF, profiles, timeZone);
-  }else{
+  } else {
     fs.unlinkSync(filePath);
-    throw new Error(`File is missing at least one of the required columns: ${requiredColumns.join(", ")}.`);
+    throw new Error(
+      `File is missing at least one of the required columns: ${requiredColumns.join(
+        ", "
+      )}.`
+    );
   }
-}
+};
 
-const calculateStats  = (allDataFrames,dataFrameGroups, timeZone) => {
+const calculateStats = (allDataFrames, dataFrameGroups, timeZone) => {
   const data = [];
   let stats = {};
 
   /**
    * Calculates the total viewing time
-   * @param {Object} Dataframe - Data forge data frame 
+   * @param {Object} Dataframe - Data forge data frame
    * @returns {Number}           Summation of duration for the data frame
    */
-   const calculateDuration = (dataFrame) => {
+  const calculateDuration = dataFrame => {
+    // const duration = [];
+    // duration.push(
+    //   dataFrame.reduce((accum, row) => {
+    //     seconds = convertTimeString(row["Duration"]);
+    //     return accum + seconds;
+    //   }, 0)
+    // );
+    // console.log("data", data[0]?.profileViewingTime[0] ?? "Hello");
+    // console.log("duration", duration);
+    // duration.push(
+    //   duration[0] / (data[0]?.profileViewingTime[0] ?? duration[0])
+    // );
+    // return duration;
     return dataFrame.reduce((accum, row) => {
       seconds = convertTimeString(row["Duration"]);
       return accum + seconds;
     }, 0);
-   };
+  };
 
   /**
    * Get the most watched title
-   * @param   {Object} Dataframe - Data forge data frame. 
+   * @param   {Object} Dataframe - Data forge data frame.
    * @returns {Array}              Array Title of show and number of entries of the show title.
-   */ 
-   const getMostWatched = (dataFrame) => {
+   */
+  const getMostWatched = dataFrame => {
     const shows = new Map();
     const mostWatched = ["", 0];
-    
+
     dataFrame.forEach(row => {
       const [title] = row.Title.split(":");
 
-      shows.has(title) ? shows.set(title, shows.get(title) + 1) : shows.set(title, 1);
+      shows.has(title)
+        ? shows.set(title, shows.get(title) + 1)
+        : shows.set(title, 1);
     });
 
     shows.forEach((value, key) => {
-      if(value > mostWatched[1]) {
+      if (value > mostWatched[1]) {
         mostWatched[0] = key;
         mostWatched[1] = value;
       }
     });
     return mostWatched;
-  }
+  };
 
   /**
    * Counts number of viewings for each day of the week.
@@ -83,7 +101,7 @@ const calculateStats  = (allDataFrames,dataFrameGroups, timeZone) => {
       const dayOfWeek = DateTime.fromJSDate(date).setZone(timeZone).weekday;
 
       // 1 = Monday, 7 = Sunday
-      switch(dayOfWeek){
+      switch (dayOfWeek) {
         case 1:
           daysOfWeekCounts[0]++;
           break;
@@ -107,15 +125,14 @@ const calculateStats  = (allDataFrames,dataFrameGroups, timeZone) => {
       }
     });
     return daysOfWeekCounts;
-  }
+  };
 
-  
   stats.profileName = "all";
   stats.profileViewingTime = calculateDuration(allDataFrames);
   stats.mostViewedTitle = getMostWatched(allDataFrames);
   stats.viewingDays = activityPerDay(allDataFrames);
+  stats.allProfileViewingDurations = [];
   data.push(stats);
-
 
   dataFrameGroups.forEach(df => {
     stats = {};
@@ -124,10 +141,13 @@ const calculateStats  = (allDataFrames,dataFrameGroups, timeZone) => {
     stats.mostViewedTitle = getMostWatched(df);
     stats.viewingDays = activityPerDay(df);
     data.push(stats);
+    data[0]["allProfileViewingDurations"].push({
+      profileName: stats.profileName,
+      profileViewingTime: stats.profileViewingTime,
+    });
   });
 
-
-   return data;
-}
+  return data;
+};
 
 module.exports = netflixUpload;
