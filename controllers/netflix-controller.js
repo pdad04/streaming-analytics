@@ -63,6 +63,23 @@ const calculateStats = (allDataFrames, dataFrameGroups, timeZone) => {
   };
 
   /**
+   * @param {Object} Dataframe - Data forge data frame.
+   * @return {Array}             Array where each index reprsents an hour of the day
+   **/
+  const activityPerHour = dataFrame => {
+    const hoursOfDay = new Array(24).fill(0);
+
+    dataFrame.forEach(row => {
+      const date = new Date(row["Start Time"] + " UTC");
+      const startTime = DateTime.fromJSDate(date).setZone(timeZone).hour;
+
+      // Start time will be 0 -23 so add one to hoursOfDay index
+      hoursOfDay[startTime]++;
+    });
+    return hoursOfDay;
+  };
+
+  /**
    * Get the most watched title
    * @param   {Object} Dataframe - Data forge data frame.
    * @returns {Array}              Array Title of show and number of entries of the show title.
@@ -131,6 +148,7 @@ const calculateStats = (allDataFrames, dataFrameGroups, timeZone) => {
   stats.profileViewingTime = calculateDuration(allDataFrames);
   stats.mostViewedTitle = getMostWatched(allDataFrames);
   stats.viewingDays = activityPerDay(allDataFrames);
+  stats.profileViewingHours = activityPerHour(allDataFrames);
   stats.allProfileViewingDurations = [];
   data.push(stats);
 
@@ -138,6 +156,7 @@ const calculateStats = (allDataFrames, dataFrameGroups, timeZone) => {
     stats = {};
     stats.profileName = df.head(1).bake().content.values[0]["Profile Name"];
     stats.profileViewingTime = calculateDuration(df);
+    stats.profileViewingHours = activityPerHour(df);
     stats.mostViewedTitle = getMostWatched(df);
     stats.viewingDays = activityPerDay(df);
     data.push(stats);

@@ -38,7 +38,33 @@ const options = {
   },
 };
 
-const labels = ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"];
+const viewingByDayLabels = ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"];
+const viewingByHoursLabel = [
+  "Midnight",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "Noon",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+];
 
 function GraphsPage({ data }) {
   console.log(data);
@@ -140,16 +166,17 @@ function GraphsPage({ data }) {
                     gridTemplateColumns: "1fr 1fr",
                     gap: "1rem",
                     alignItems: "center",
+                    justifyContent: "center",
                     marginTop: "2rem",
                   })}
                 >
                   <div>
                     <Bar
                       data={{
-                        labels: labels,
+                        labels: viewingByDayLabels,
                         datasets: [
                           {
-                            label: "Viewing By Day",
+                            label: "Views per day",
                             backgroundColor: "rgba(63, 146, 200, 0.79)",
                             data: profile.viewingDays,
                           },
@@ -157,8 +184,26 @@ function GraphsPage({ data }) {
                       }}
                     />
                   </div>
+                  <div>
+                    <Bar
+                      data={{
+                        labels: viewingByHoursLabel,
+                        datasets: [
+                          {
+                            label: "Views per hour",
+                            backgroundColor: "rgba(63,146,200,0.79)",
+                            data: profile.profileViewingHours,
+                          },
+                        ],
+                      }}
+                    />
+                  </div>
                   {profile.allProfileViewingDurations ? (
-                    <div>
+                    <div
+                      className={css({
+                        gridColumn: "span 2",
+                      })}
+                    >
                       <Pie
                         data={{
                           labels: profile.allProfileViewingDurations.map(
@@ -166,7 +211,6 @@ function GraphsPage({ data }) {
                           ),
                           datasets: [
                             {
-                              label: "Test",
                               data: profile.allProfileViewingDurations.map(
                                 el =>
                                   (el.profileViewingTime /
@@ -180,6 +224,9 @@ function GraphsPage({ data }) {
                             },
                           ],
                         }}
+                        width={400}
+                        height={400}
+                        options={{ maintainAspectRatio: false }}
                       />
                     </div>
                   ) : (
