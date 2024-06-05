@@ -1,6 +1,9 @@
 import React from "react";
 import { useStyletron } from "baseui";
 import { HeadingMedium } from "baseui/typography";
+import { Button, SHAPE } from "baseui/button";
+import { StatefulTooltip, PLACEMENT } from "baseui/tooltip";
+import { ArrowLeft } from "baseui/icon";
 import { Bar, Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -66,7 +69,7 @@ const viewingByHoursLabel = [
   "11",
 ];
 
-function GraphsPage({ data }) {
+function GraphsPage({ data, clearData }) {
   console.log(data);
   const [css] = useStyletron();
 
@@ -95,6 +98,8 @@ function GraphsPage({ data }) {
     return `${days}D : ${hours}H : ${minutes}M : ${sec}S`;
   };
 
+  const returnToLanding = () => {};
+
   const graphLayout = {
     position: "relative",
     height: "10vh",
@@ -102,6 +107,31 @@ function GraphsPage({ data }) {
 
   return (
     <div className={css({ width: "100vw", height: "100vh" })}>
+      <div
+        className={css({
+          position: "relative",
+          left: "1.5rem",
+          top: "1.5rem",
+        })}
+      >
+        <StatefulTooltip
+          content={() => (
+            <h2>
+              Return to landing.
+              <br />
+              <br />
+              <span className={css({ color: "red" })}>
+                This will require you re-upload your file!
+              </span>
+            </h2>
+          )}
+          placement={PLACEMENT.bottomLeft}
+        >
+          <Button shape={SHAPE.circle} onClick={clearData}>
+            <ArrowLeft />
+          </Button>
+        </StatefulTooltip>
+      </div>
       <div
         className={css({
           width: "100%",

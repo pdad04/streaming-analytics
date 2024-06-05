@@ -8,21 +8,21 @@ function App() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
-  const getResponse = (res) => {
-    setResponseData(res.data)
-  }
+  const getResponse = res => {
+    setResponseData(res.data);
+  };
+
+  const clearResponse = () => {
+    setResponseData(null);
+  };
 
   return (
     <div className="App">
-      {responseData ? 
-        <GraphsPage
-          data={responseData}
-        />
-      :
-        <LandingPage
-            getResponse={getResponse}
-        />
-      }
+      {responseData ? (
+        <GraphsPage data={responseData} clearData={clearResponse} />
+      ) : (
+        <LandingPage getResponse={getResponse} />
+      )}
     </div>
   );
 }
