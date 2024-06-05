@@ -21,6 +21,7 @@ const checkFileType = (file, cb) => {
 };
 
 router.post("/netflix", async (req, res) => {
+  console.log("netflix route");
   upload(req, res, async err => {
     if (err) {
       res
