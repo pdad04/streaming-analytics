@@ -17,7 +17,8 @@ const upload = multer({
 }).single("csv");
 
 const checkFileType = (file, cb) => {
-  // file.mimetype === "text/csv" ? cb(null, true) : cb(new Error(), false);
+  console.log(file.mimetype);
+  file.mimetype === "text/csv" ? cb(null, true) : cb(new Error(), false);
 };
 
 router.post("/netflix", async (req, res) => {
