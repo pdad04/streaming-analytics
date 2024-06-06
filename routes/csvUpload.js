@@ -22,12 +22,12 @@ const checkFileType = (file, cb) => {
 
 router.post("/netflix", async (req, res) => {
   console.log("netflix route");
-  upload(req, res, async err => {
-    if (err) {
-      res
-        .status(415)
-        .json({ msg: "File type not supported. Please upload a CSV file" });
-    }
+  // upload(req, res, async err => {
+  //   if (err) {
+  //     res
+  //       .status(415)
+  //       .json({ msg: "File type not supported. Please upload a CSV file" });
+  //   }
     console.log(req.file);
     try {
       const { filename: fileName } = req.file;
