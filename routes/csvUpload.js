@@ -17,7 +17,6 @@ const upload = multer({
 }).single("csv");
 
 const checkFileType = (file, cb) => {
-  console.log(file.mimetype);
   file.mimetype === "text/csv" ? cb(null, true) : cb(new Error(), false);
 };
 
@@ -29,7 +28,7 @@ router.post("/netflix", async (req, res) => {
         .status(415)
         .json({ msg: "File type not supported. Please upload a CSV file" });
     }
-
+    console.log(req.file);
     try {
       const { filename: fileName } = req.file;
       const { timezone: timeZone } = req.body;
