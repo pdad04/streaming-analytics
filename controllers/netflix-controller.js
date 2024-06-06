@@ -6,7 +6,7 @@ const path = require("path");
 const convertTimeString = require("../utils/convertToSeconds");
 
 const netflixUpload = async (file, timeZone) => {
-  const filePath = path.resolve("tmp/uploads", file);
+  const filePath = path.resolve("./tmp/uploads", file);
   const dataFrame = await dataForge.readFile(filePath).parseCSV();
   const requiredColumns = ["Profile Name", "Start Time", "Duration", "Title"];
 
