@@ -41,4 +41,8 @@ router.post("/netflix", async (req, res) => {
   });
 });
 
+router.get("/test", (req, res) => {
+  res.json({ msg: "Message Test" });
+});
+
 module.exports = router;
