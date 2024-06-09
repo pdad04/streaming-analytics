@@ -3,7 +3,7 @@ const netflixUpload = require("../controllers/netflix-controller");
 const multer = require("multer");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "tmp/uploads");
+    cb(null, "../tmp/uploads");
   },
   filename: function (req, file, cb) {
     const uniquePrefix = Date.now();

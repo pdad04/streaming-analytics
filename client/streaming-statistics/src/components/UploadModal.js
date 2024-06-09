@@ -47,7 +47,10 @@ const UploadModal = ({ getResponse }) => {
     formData.append("timezone", timezone);
 
     try {
-      const response = await axios.post(`/api/upload/csv/netflix`, formData);
+      const response = await axios.post(
+        `https://streaming-analytics.onrender.com/api/upload/csv/netflix`,
+        formData
+      );
       setIsOpen(false);
       getResponse(response);
     } catch (error) {
