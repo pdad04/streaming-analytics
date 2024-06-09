@@ -8,6 +8,10 @@ const app = express();
 if (!fs.existsSync("./tmp/uploads")) {
   fs.mkdirSync("./tmp/uploads", { recursive: true });
 }
+
+if (fs.existsSync("./tmp/uploads")) {
+  console.log("tmp/uploads exists!");
+}
 app.use(cors());
 app.use(express.json({ extended: false }));
 
