@@ -1,11 +1,11 @@
-// const { createProxyMiddleware } = require("http-proxy-middleware");
+const { createProxyMiddleware } = require("http-proxy-middleware");
 
-// module.exports = function (app) {
-//   app.use(
-//     createProxyMiddleware(["/api"], {
-//       // target: "https://streaming-analytics.onrender.com",
-//       target: "localhost:5000",
-//       changeOrigin: true,
-//     })
-//   );
-// };
+module.exports = function (app) {
+  app.use(
+    createProxyMiddleware(["/api/upload/csv"], {
+      target: "https://streaming-analytics.onrender.com",
+      // target: "localhost:5000",
+      changeOrigin: true,
+    })
+  );
+};
